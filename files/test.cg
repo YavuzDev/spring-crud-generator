@@ -1,15 +1,9 @@
 model User {
-  key: Long
+  key: Int
+  email: Text
   firstName: Text
   lastName: Text
-}
-
-model Test {
-  key: Int
-  user: User
-}
-
-model TestList {
-  key: Int
-  list: List(User)
+  repo: [
+    findUserByEmail
+  ]
 }

@@ -2,6 +2,7 @@ package com.generator.nodes.objects.model;
 
 import com.generator.file.CrudTree;
 import com.generator.file.MavenFile;
+import com.generator.file.crud.ClassType;
 import com.generator.file.crud.CrudFile;
 import com.generator.file.crud.code.Annotation;
 import com.generator.file.crud.code.Imports;
@@ -9,6 +10,7 @@ import com.generator.file.crud.code.Location;
 import com.generator.nodes.AstNode;
 
 import java.util.List;
+import java.util.Objects;
 
 public class ModelDeclaration extends AstNode {
 
@@ -18,10 +20,13 @@ public class ModelDeclaration extends AstNode {
 
     private final List<ModelField> modelFields;
 
-    public ModelDeclaration(String name, ModelKey modelKey, List<ModelField> modelFields) {
+    private final List<ModelRepo> repoFunctions;
+
+    public ModelDeclaration(String name, ModelKey modelKey, List<ModelField> modelFields, List<ModelRepo> repoFunctions) {
         this.name = name;
         this.modelKey = modelKey;
         this.modelFields = modelFields;
+        this.repoFunctions = repoFunctions;
     }
 
     @Override
@@ -30,7 +35,7 @@ public class ModelDeclaration extends AstNode {
 
         var location = new Location(directory.getFullPath());
 
-        var file = new CrudFile(location, name);
+        var file = new CrudFile(ClassType.CLASS, location, name, null);
         file.addImport(new Imports("javax.persistence.*"));
         file.addAnnotation(new Annotation("Entity"));
 
@@ -41,5 +46,8 @@ public class ModelDeclaration extends AstNode {
 
         modelKey.generate(tree, mavenFile);
         modelFields.forEach(m -> m.generate(tree, mavenFile));
+        if (repoFunctions != null) {
+            repoFunctions.stream().filter(Objects::nonNull).forEach(m -> m.generate(tree, mavenFile));
+        }
     }
 }

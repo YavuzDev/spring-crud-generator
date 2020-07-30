@@ -75,7 +75,7 @@ public class CrudTree {
                 }
             }
         }
-        throw new RuntimeException("No directory with name " + directoryName + " found");
+        return null;
     }
 
     public CrudFile getFile(String fileName) {
@@ -93,7 +93,7 @@ public class CrudTree {
                 }
             }
         }
-        throw new RuntimeException("No file with the name " + fileName + " found");
+       return null;
     }
 
     public CrudDirectory getCurrentDirectory() {

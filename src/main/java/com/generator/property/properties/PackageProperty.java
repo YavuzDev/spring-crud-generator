@@ -17,6 +17,7 @@ public class PackageProperty extends Property {
 
         var codeDirectory = new CrudDirectory(rootDirectory, split[1]);
         codeDirectory.addDirectory(new CrudDirectory(codeDirectory,"model"));
+        codeDirectory.addDirectory(new CrudDirectory(codeDirectory,"repositories"));
         codeDirectory.addDirectory(new CrudDirectory(codeDirectory,"services"));
         codeDirectory.addDirectory(new CrudDirectory(codeDirectory,"controllers"));
 

@@ -3,19 +3,26 @@ package com.generator.nodes;
 import java.util.Arrays;
 
 public enum Type {
-    STRING("String"),
-    TEXT("String"),
-    INT("int"),
-    LONG("long");
+    STRING("String", "String"),
+    TEXT("String", "String"),
+    INT("int", "Integer"),
+    LONG("long", "Long");
 
     private final String value;
 
-    Type(String value) {
+    private final String objectValue;
+
+    Type(String value, String objectValue) {
         this.value = value;
+        this.objectValue = objectValue;
     }
 
     public String getValue() {
         return value;
+    }
+
+    public String getObjectValue() {
+        return objectValue;
     }
 
     public static Type getValue(String identifier) {

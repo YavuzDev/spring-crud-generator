@@ -11,6 +11,8 @@ import java.util.Set;
 
 public class CrudFile {
 
+    private final ClassType classType;
+
     private final Location location;
 
     private final String fileName;
@@ -23,13 +25,17 @@ public class CrudFile {
 
     private final Set<Field> fields;
 
-    public CrudFile(Location location, String fileName) {
+    private final String repoKey;
+
+    public CrudFile(ClassType classType, Location location, String fileName, String repoKey) {
+        this.classType = classType;
         this.location = location;
         this.fileName = fileName;
         this.imports = new LinkedHashSet<>();
         this.annotations = new LinkedHashSet<>();
         this.functions = new LinkedHashSet<>();
         this.fields = new LinkedHashSet<>();
+        this.repoKey = repoKey;
     }
 
     public void createFile(Path path) throws IOException {
@@ -40,7 +46,13 @@ public class CrudFile {
 
         annotations.forEach(a -> builder.append(a.toCode()).append("\n"));
 
-        builder.append("public").append(" ").append("class").append(" ").append(fileName).append(" ").append("{").append("\n").append("\n");
+        builder.append("public").append(" ").append(classType.name().toLowerCase()).append(" ").append(fileName).append(" ");
+        if (classType == ClassType.CLASS) {
+            builder.append("{").append("\n").append("\n");
+        } else if (classType == ClassType.INTERFACE) {
+            builder.append("extends").append(" ").append("JpaRepository<").append(fileName.replace("Repository", "")).append(",")
+                    .append(" ").append(repoKey).append(">").append(" ").append("{").append("\n");
+        }
 
         var fieldList = new ArrayList<>(fields);
         for (int i = 0; i < fieldList.size(); i++) {
@@ -95,11 +107,19 @@ public class CrudFile {
         fields.add(field);
     }
 
+    public void addFunction(Function function) {
+        functions.add(function);
+    }
+
     public String getFileName() {
         return fileName;
     }
 
     public Location getLocation() {
         return location;
+    }
+
+    public Set<Field> getFields() {
+        return fields;
     }
 }

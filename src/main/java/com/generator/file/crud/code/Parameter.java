@@ -22,9 +22,12 @@ public class Parameter implements CrudCode {
     @Override
     public String toCode() {
         var builder = new StringBuilder();
-        builder.append("(");
         annotations.forEach(a -> builder.append(a.toCode()));
         builder.append(type).append(" ").append(name);
         return builder.toString();
+    }
+
+    public void addAnnotation(Annotation annotation) {
+        annotations.add(annotation);
     }
 }

@@ -5,6 +5,7 @@ import com.generator.nodes.CompileUnitNode;
 import com.generator.nodes.objects.model.ModelDeclaration;
 import com.generator.nodes.objects.model.ModelField;
 import com.generator.nodes.objects.model.ModelKey;
+import com.generator.nodes.objects.model.ModelRepo;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,7 +21,8 @@ public class BuildAstVisitor extends CrudGeneratorBaseVisitor<AstNode> {
     @Override
     public AstNode visitModelDecl(CrudGeneratorParser.ModelDeclContext ctx) {
         var fields = getFields(ctx.modelFields());
-        return new ModelDeclaration(ctx.name.getText(), (ModelKey) visit(ctx.key), fields);
+        var repoFunctions = getRepoFunctions(ctx.modelRepo());
+        return new ModelDeclaration(ctx.name.getText(), (ModelKey) visit(ctx.key), fields, repoFunctions);
     }
 
     @Override
@@ -35,6 +37,22 @@ public class BuildAstVisitor extends CrudGeneratorBaseVisitor<AstNode> {
             value = ctx.collection.getText();
         }
         return new ModelField(ctx.type.getText(), ctx.name.getText(), value);
+    }
+
+    @Override
+    public AstNode visitModelRepo(CrudGeneratorParser.ModelRepoContext ctx) {
+        if (ctx.name == null) {
+            return super.visitModelRepo(ctx);
+        }
+        return new ModelRepo(ctx.name.getText());
+    }
+
+    private List<ModelRepo> getRepoFunctions(List<CrudGeneratorParser.ModelRepoContext> modelRepo) {
+        return modelRepo
+                .stream()
+                .map(this::visit)
+                .map(node -> (ModelRepo) node)
+                .collect(Collectors.toList());
     }
 
     private List<ModelDeclaration> getModels(List<CrudGeneratorParser.ModelDeclContext> modelDecl) {
