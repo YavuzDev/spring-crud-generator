@@ -14,4 +14,8 @@ public class Location implements CrudCode {
     public String toCode() {
         return "package " + location + ";" + "\n\n";
     }
+
+    public String getLocation() {
+        return location;
+    }
 }

@@ -8,7 +8,6 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class CrudFile {
 
@@ -98,5 +97,9 @@ public class CrudFile {
 
     public String getFileName() {
         return fileName;
+    }
+
+    public Location getLocation() {
+        return location;
     }
 }

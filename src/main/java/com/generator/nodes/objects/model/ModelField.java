@@ -29,6 +29,9 @@ public class ModelField extends AstNode {
         if (!collection.isBlank()) {
             var field = new Field(type + "<" + collection + ">", name, false);
             if (typeToCheck == null) {
+                var file = tree.getFile(collection);
+                tree.getCurrentFile().addImport(new Imports(file.getLocation().getLocation() + "." + collection));
+
                 var annotation = new Annotation("OneToMany");
                 annotation.addParameter("cascade", "CascadeType.ALL");
                 field.addAnnotation(annotation);
@@ -47,6 +50,9 @@ public class ModelField extends AstNode {
             annotation.addParameter("cascade", "CascadeType.ALL");
             field.addAnnotation(annotation);
             tree.getCurrentFile().addField(field);
+
+            var file = tree.getFile(type);
+            tree.getCurrentFile().addImport(new Imports(file.getLocation().getLocation() + "." + type));
         } else {
             tree.getCurrentFile().addField(new Field(Type.getValue(type).getValue(), name, false));
         }
