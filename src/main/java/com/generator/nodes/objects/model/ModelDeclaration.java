@@ -33,7 +33,7 @@ public class ModelDeclaration extends AstNode {
     public void generate(CrudTree tree, MavenFile mavenFile) {
         var directory = tree.getDirectory("model");
 
-        var location = new Location(directory.getFullPath());
+        var location = new Location(directory.getImportPath());
 
         var file = new CrudFile(ClassType.CLASS, location, name, "");
         file.addImport(new Imports("javax.persistence.*"));

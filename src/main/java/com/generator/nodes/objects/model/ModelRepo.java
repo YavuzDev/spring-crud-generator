@@ -34,7 +34,7 @@ public class ModelRepo extends AstNode {
 
     private void newFile(CrudDirectory crudDirectory, CrudFile currentFile) {
         var type = Type.getValue(currentFile.getFields().iterator().next().getType());
-        var crudFile = new CrudFile(ClassType.INTERFACE, new Location(crudDirectory.getFullPath()), currentFile.getFileName() + "Repository", type.getObjectValue());
+        var crudFile = new CrudFile(ClassType.INTERFACE, new Location(crudDirectory.getImportPath()), currentFile.getFileName() + "Repository", type.getObjectValue());
         crudFile.addAnnotation(new Annotation("Repository"));
         crudFile.addImport(new Imports(currentFile.getLocation().getLocation() + "." + currentFile.getFileName()));
         crudFile.addImport(new Imports("org.springframework.stereotype.Repository"));

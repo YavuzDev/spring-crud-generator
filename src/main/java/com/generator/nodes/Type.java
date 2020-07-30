@@ -5,8 +5,11 @@ import java.util.Arrays;
 public enum Type {
     STRING("String", "String"),
     TEXT("String", "String"),
+    BYTE("byte", "Byte"),
+    SHORT("short", "Short"),
     INT("int", "Integer"),
-    LONG("long", "Long");
+    LONG("long", "Long"),
+    DOUBLE("double", "Double");
 
     private final String value;
 

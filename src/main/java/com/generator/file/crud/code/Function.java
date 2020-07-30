@@ -29,7 +29,10 @@ public class Function implements CrudCode {
     public String toCode() {
         var builder = new StringBuilder();
         annotations.forEach(a -> builder.append(a.toCode()));
-        builder.append("\t").append("public").append(" ").append(type).append(" ").append(functionName);
+        builder.append("\t").append(type).append(" ").append(functionName);
+        if (!isInterfaceFunction) {
+            builder.append("public").append(" ");
+        }
         builder.append("(");
         parameters.forEach(p -> builder.append(p.toCode()));
         builder.append(")");

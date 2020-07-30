@@ -54,7 +54,7 @@ public class ModelField extends AstNode {
             var file = tree.getFile(type);
             tree.getCurrentFile().addImport(new Imports(file.getLocation().getLocation() + "." + type));
         } else {
-            tree.getCurrentFile().addField(new Field(Type.getValue(type).getValue(), name, false));
+            tree.getCurrentFile().addField(new Field(typeToCheck.getValue(), name, false));
         }
     }
 }

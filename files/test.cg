@@ -1,8 +1,15 @@
-model User {
-  key: Int
-  email: Text
+model Profile {
+  key: Long
   firstName: Text
   lastName: Text
+  value: Byte
+}
+
+model User {
+  key: Long
+  email: Text
+  password: Text
+  profiles: List(Profile)
   repo: [
     findUserByEmail
     existsByFirstName

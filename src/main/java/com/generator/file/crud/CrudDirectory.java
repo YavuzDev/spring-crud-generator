@@ -69,7 +69,7 @@ public class CrudDirectory {
         return files;
     }
 
-    public String getFullPath() {
+    public String getImportPath() {
         var builder = new StringBuilder();
         var directory = this;
         while (directory != null) {
