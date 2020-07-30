@@ -6,7 +6,7 @@ compileUnit
 
 modelDecl
     :
-      MODEL_KEYWORD name=ID START_BLOCK_STATEMENT key=modelKey modelFields* modelRepo* END_BLOCK_STATEMENT
+      MODEL_KEYWORD name=ID START_BLOCK_STATEMENT key=modelKey modelFields* (MODEL_REPO MODEL_FIELD_SEPERATOR START_BLOCK_ARRAY modelRepo* END_BLOCK_ARRAY)? END_BLOCK_STATEMENT
     ;
 
 modelKey
@@ -21,7 +21,7 @@ modelFields
 
 modelRepo
     :
-      MODEL_REPO MODEL_FIELD_SEPERATOR START_BLOCK_ARRAY (name=ID)? END_BLOCK_ARRAY
+      name=ID
     ;
 
 

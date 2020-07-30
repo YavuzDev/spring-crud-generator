@@ -23,7 +23,9 @@ public class ModelRepo extends AstNode {
         var currentFile = tree.getCurrentFile();
         var directory = tree.getDirectory("repositories");
 
-        var existingFile = tree.getFile(currentFile.getFileName() + "Repository");
+        var correctFileName = currentFile.getFileName().contains("Repository") ? currentFile.getFileName() : currentFile.getFileName() + "Repository";
+        var existingFile = tree.getFile(correctFileName);
+
         if (existingFile == null) {
             var newFile = newFile(directory, currentFile);
             tree.setCurrentFile(newFile);
@@ -31,6 +33,7 @@ public class ModelRepo extends AstNode {
             addFunction(existingFile, existingFile);
             tree.setCurrentFile(existingFile);
         }
+
         tree.setCurrentDirectory(directory);
     }
 
@@ -50,12 +53,19 @@ public class ModelRepo extends AstNode {
 
     private void addFunction(CrudFile oldFile, CrudFile newFile) {
         var functionType = "";
-        if (name.contains("contains")) {
+        if (name.contains("exists")) {
             functionType = "boolean";
-        } else {
+        } else if (name.contains("find")) {
             functionType = oldFile.getFileName();
+        } else if (name.contains("count")) {
+            functionType = "long";
         }
         var function = new Function(name, functionType, true);
+
+        if (name.contains("count")) {
+            newFile.addFunction(function);
+            return;
+        }
 
         var parameterName = name.substring(name.indexOf("By")).replace("By", "");
         var correctParameterName = parameterName.substring(0, 1).toLowerCase() + parameterName.substring(1);
