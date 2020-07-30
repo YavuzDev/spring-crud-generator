@@ -27,6 +27,8 @@ public class CrudFile {
 
     private final String repoKey;
 
+    private final StringBuilder bodyText;
+
     public CrudFile(ClassType classType, Location location, String fileName, String repoKey) {
         this.classType = classType;
         this.location = location;
@@ -36,6 +38,7 @@ public class CrudFile {
         this.functions = new LinkedHashSet<>();
         this.fields = new LinkedHashSet<>();
         this.repoKey = repoKey;
+        this.bodyText = new StringBuilder();
     }
 
     public void createFile(Path path) throws IOException {
@@ -48,7 +51,10 @@ public class CrudFile {
 
         builder.append("public").append(" ").append(classType.name().toLowerCase()).append(" ").append(fileName).append(" ");
         if (classType == ClassType.CLASS) {
-            builder.append("{").append("\n").append("\n");
+            builder.append("{").append("\n");
+            if (fields.size() > 0) {
+                builder.append("\n");
+            }
         } else if (classType == ClassType.INTERFACE) {
             builder.append("extends").append(" ").append("JpaRepository<").append(fileName.replace("Repository", "")).append(",")
                     .append(" ").append(repoKey).append(">").append(" ").append("{").append("\n");
@@ -67,6 +73,8 @@ public class CrudFile {
         builder.append("\n");
 
         functions.forEach(f -> builder.append(f.toCode()).append("\n"));
+
+        builder.append(bodyText);
 
         addGetter(builder);
         addSetters(builder);
@@ -121,5 +129,9 @@ public class CrudFile {
 
     public Set<Field> getFields() {
         return fields;
+    }
+
+    public StringBuilder getBodyText() {
+        return bodyText;
     }
 }

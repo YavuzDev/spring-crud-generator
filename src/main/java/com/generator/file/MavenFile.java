@@ -44,7 +44,7 @@ public class MavenFile {
                 \t\t<groupId>org.springframework.boot</groupId>
                 \t\t<artifactId>spring-boot-starter-parent</artifactId>
                 \t\t<version>2.3.2.RELEASE</version>
-                \t\t<relativePath/> <!-- lookup parent from repository -->
+                \t\t<relativePath/>
                 \t</parent>
                 """);
 
@@ -53,7 +53,30 @@ public class MavenFile {
 
         stringBuilder.append("\t").append("<dependencies>").append("\n");
         dependencies.forEach(d -> stringBuilder.append(d.toXML()));
+        stringBuilder.append("""
+                \t\t<dependency>
+                    \t\t<groupId>org.springframework.boot</groupId>
+                    \t\t<artifactId>spring-boot-starter-test</artifactId>
+                    \t\t<scope>test</scope>
+                    \t\t<exclusions>
+                        \t\t<exclusion>
+                            \t\t<groupId>org.junit.vintage</groupId>
+                            \t\t<artifactId>junit-vintage-engine</artifactId>
+                        \t\t</exclusion>
+                    \t\t</exclusions>
+                \t\t</dependency>
+                """);
         stringBuilder.append("\t").append("</dependencies>").append("\n");
+
+        stringBuilder.append("""
+                    \t<build>
+                        \t<plugins>
+                            \t<plugin>
+                                \t<groupId>org.springframework.boot</groupId>
+                                \t<artifactId>spring-boot-maven-plugin</artifactId>
+                            \t</plugin>
+                        \t</plugins>
+                    \t</build>""");
 
         stringBuilder.append("\n</project>");
 
