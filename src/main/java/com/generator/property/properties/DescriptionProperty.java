@@ -7,7 +7,7 @@ import com.generator.property.Property;
 public class DescriptionProperty extends Property {
     @Override
     public void apply(CrudTree tree, MavenFile mavenFile, String value) {
-        mavenFile.getMavenInfo().addInfo(property(), value);
+        mavenFile.addInfo(property(), value);
     }
 
     @Override

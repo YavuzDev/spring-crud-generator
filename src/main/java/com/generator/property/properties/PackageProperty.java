@@ -13,7 +13,7 @@ import com.generator.property.Property;
 public class PackageProperty extends Property {
     @Override
     public void apply(CrudTree tree, MavenFile mavenFile, String value) {
-        mavenFile.getMavenInfo().addInfo("groupId", value);
+        mavenFile.addInfo("groupId", value);
 
         var split = value.split("\\.");
 

@@ -3,10 +3,13 @@ package com.generator.file;
 import com.generator.CrudGenerator;
 import com.generator.file.crud.CrudDirectory;
 import com.generator.file.crud.CrudFile;
+import com.generator.file.crud.code.Imports;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 public class CrudTree {
 
@@ -18,8 +21,11 @@ public class CrudTree {
 
     private final SpringProperties springProperties;
 
+    private final Set<MissingImport> missingImports;
+
     public CrudTree() {
         this.springProperties = new SpringProperties();
+        this.missingImports = new LinkedHashSet<>();
     }
 
     public void generateFiles(Path path) throws IOException {
@@ -93,7 +99,7 @@ public class CrudTree {
                 }
             }
         }
-       return null;
+        return null;
     }
 
     public CrudDirectory getCurrentDirectory() {
@@ -110,5 +116,21 @@ public class CrudTree {
 
     public void setCurrentFile(CrudFile currentFile) {
         this.currentFile = currentFile;
+    }
+
+    public void addMissingImport(CrudFile file, String missingType) {
+        missingImports.add(new MissingImport(file, missingType));
+    }
+
+    public void addMissingImports() {
+        missingImports.forEach(m -> {
+            var file = getFile(m.getMissingType());
+            m.getCrudFile().addImport(new Imports(file.getLocation().getLocation() + "." + m.getMissingType()));
+            try {
+                m.getCrudFile().createFile(file.getDirectory());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 }

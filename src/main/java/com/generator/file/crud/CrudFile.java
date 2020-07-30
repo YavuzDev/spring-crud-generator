@@ -29,6 +29,8 @@ public class CrudFile {
 
     private final StringBuilder bodyText;
 
+    private Path directory;
+
     public CrudFile(ClassType classType, Location location, String fileName, String repoKey) {
         this.classType = classType;
         this.location = location;
@@ -42,6 +44,8 @@ public class CrudFile {
     }
 
     public void createFile(Path path) throws IOException {
+        directory = path;
+
         var builder = new StringBuilder();
         builder.append(location.toCode());
         imports.forEach(i -> builder.append(i.toCode()).append("\n"));
@@ -133,5 +137,9 @@ public class CrudFile {
 
     public StringBuilder getBodyText() {
         return bodyText;
+    }
+
+    public Path getDirectory() {
+        return directory;
     }
 }

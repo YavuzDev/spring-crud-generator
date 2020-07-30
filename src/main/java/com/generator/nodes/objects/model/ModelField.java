@@ -30,7 +30,11 @@ public class ModelField extends AstNode {
             var field = new Field(type + "<" + collection + ">", name, false);
             if (typeToCheck == null) {
                 var file = tree.getFile(collection);
-                tree.getCurrentFile().addImport(new Imports(file.getLocation().getLocation() + "." + collection));
+                if (file == null) {
+                    tree.addMissingImport(tree.getCurrentFile(), collection);
+                } else {
+                    tree.getCurrentFile().addImport(new Imports(file.getLocation().getLocation() + "." + collection));
+                }
 
                 var annotation = new Annotation("OneToMany");
                 annotation.addParameter("cascade", "CascadeType.ALL");
@@ -52,7 +56,11 @@ public class ModelField extends AstNode {
             tree.getCurrentFile().addField(field);
 
             var file = tree.getFile(type);
-            tree.getCurrentFile().addImport(new Imports(file.getLocation().getLocation() + "." + type));
+            if (file == null) {
+                tree.addMissingImport(tree.getCurrentFile(), type);
+            } else {
+                tree.getCurrentFile().addImport(new Imports(file.getLocation().getLocation() + "." + type));
+            }
         } else {
             tree.getCurrentFile().addField(new Field(typeToCheck.getValue(), name, false));
         }

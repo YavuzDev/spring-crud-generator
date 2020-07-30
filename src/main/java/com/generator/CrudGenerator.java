@@ -54,6 +54,8 @@ public class CrudGenerator {
 
         mavenFile.generate(pathToCode);
         crudTree.generateFiles(pathToCode);
+
+        crudTree.addMissingImports();
     }
 
     public static void main(String[] args) throws IOException {
@@ -77,6 +79,5 @@ public class CrudGenerator {
         Files.createDirectory(directory);
 
         generator.compile(CharStreams.fromPath(pathToCode), propertyManager, pathToCode, pathToProperties);
-
     }
 }

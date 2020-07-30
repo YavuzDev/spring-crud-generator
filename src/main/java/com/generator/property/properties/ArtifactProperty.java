@@ -7,7 +7,7 @@ import com.generator.property.Property;
 public class ArtifactProperty extends Property {
     @Override
     public void apply(CrudTree tree, MavenFile mavenFile, String value) {
-        mavenFile.getMavenInfo().addInfo("artifactId", value);
+        mavenFile.addInfo("artifactId", value);
     }
 
     @Override

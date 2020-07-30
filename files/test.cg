@@ -1,18 +1,45 @@
-model Profile {
+model Student {
   key: Long
   firstName: Text
   lastName: Text
-  value: Byte
+  year: Int
+  grades: List(Grade)
+  mentor: Mentor
+  repo: [
+    findStudentByKey
+  ]
 }
 
-model User {
+model Grade {
   key: Long
-  email: Text
-  password: Text
-  profiles: List(Profile)
+  score: Double
+  course: Course
+}
+
+model Course {
+  key: Int
+  courseName: String
+  students: List(Student)
   repo: [
-    findUserByEmail
-    existsByFirstName
-    countByLastName
+    findCourseByCourseName
+  ]
+}
+
+model Mentor {
+  key: Long
+  firstName: Text
+  lastName: Text
+  repo: [
+    findMentorByKey
+  ]
+}
+
+model Teacher {
+  key: Long
+  firstName: Text
+  lastName: Text
+  courses: List(Course)
+  repo: [
+    findTeacherByKey
   ]
 }

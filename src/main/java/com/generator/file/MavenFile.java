@@ -26,10 +26,6 @@ public class MavenFile {
         this.mavenProperties = new MavenProperties();
     }
 
-    public void addDependency(MavenDependency mavenDependency) {
-        dependencies.add(mavenDependency);
-    }
-
     public void generate(Path pathToCode) throws IOException {
         var stringBuilder = new StringBuilder();
         stringBuilder.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
@@ -84,15 +80,15 @@ public class MavenFile {
         Files.write(newFile, stringBuilder.toString().getBytes());
     }
 
-    public MavenInfo getMavenInfo() {
-        return mavenInfo;
-    }
-
-    public MavenProperties getMavenProperties() {
-        return mavenProperties;
-    }
-
     public void addBasicMavenDependency(BasicMavenDependency basicMavenDependency) {
         dependencies.add(new MavenDependency().addBasicDependency(basicMavenDependency));
+    }
+
+    public void addInfo(String key, String value) {
+        mavenInfo.addInfo(key, value);
+    }
+
+    public void addProperty(String key, String value) {
+        mavenProperties.addProperty(key, value);
     }
 }
