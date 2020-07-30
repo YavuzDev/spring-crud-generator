@@ -32,7 +32,7 @@ public class PackageProperty extends Property {
     }
 
     private void addMainClass(CrudDirectory directory) {
-        var file = new CrudFile(ClassType.CLASS, new Location(directory.getFullPath()), "Main", null);
+        var file = new CrudFile(ClassType.CLASS, new Location(directory.getFullPath()), "Main", "");
         file.addImport(new Imports("org.springframework.boot.SpringApplication"));
         file.addImport(new Imports("org.springframework.boot.autoconfigure.SpringBootApplication"));
         file.addAnnotation(new Annotation("SpringBootApplication"));

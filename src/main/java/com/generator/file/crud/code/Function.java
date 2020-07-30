@@ -34,7 +34,7 @@ public class Function implements CrudCode {
         parameters.forEach(p -> builder.append(p.toCode()));
         builder.append(")");
         if (isInterfaceFunction) {
-            builder.append(";");
+            builder.append(";").append("\n");
             return builder.toString();
         }
         builder.append(" ").append("{").append("\n");

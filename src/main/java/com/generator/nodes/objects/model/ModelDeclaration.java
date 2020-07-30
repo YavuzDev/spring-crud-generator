@@ -35,7 +35,7 @@ public class ModelDeclaration extends AstNode {
 
         var location = new Location(directory.getFullPath());
 
-        var file = new CrudFile(ClassType.CLASS, location, name, null);
+        var file = new CrudFile(ClassType.CLASS, location, name, "");
         file.addImport(new Imports("javax.persistence.*"));
         file.addAnnotation(new Annotation("Entity"));
 

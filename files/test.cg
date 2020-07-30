@@ -5,5 +5,7 @@ model User {
   lastName: Text
   repo: [
     findUserByEmail
+    existsByFirstName
+    countByLastName
   ]
 }

@@ -23,21 +23,16 @@ public class ModelRepo extends AstNode {
         var currentFile = tree.getCurrentFile();
         var directory = tree.getDirectory("repositories");
 
-        var correctFileName = currentFile.getFileName().contains("Repository") ? currentFile.getFileName() : currentFile.getFileName() + "Repository";
-        var existingFile = tree.getFile(correctFileName);
+        var existingFile = tree.getFile(currentFile.getFileName() + "Repository");
 
         if (existingFile == null) {
-            var newFile = newFile(directory, currentFile);
-            tree.setCurrentFile(newFile);
+            newFile(directory, currentFile);
         } else {
-            addFunction(existingFile, existingFile);
-            tree.setCurrentFile(existingFile);
+            addFunction(currentFile, existingFile);
         }
-
-        tree.setCurrentDirectory(directory);
     }
 
-    private CrudFile newFile(CrudDirectory crudDirectory, CrudFile currentFile) {
+    private void newFile(CrudDirectory crudDirectory, CrudFile currentFile) {
         var type = Type.getValue(currentFile.getFields().iterator().next().getType());
         var crudFile = new CrudFile(ClassType.INTERFACE, new Location(crudDirectory.getFullPath()), currentFile.getFileName() + "Repository", type.getObjectValue());
         crudFile.addAnnotation(new Annotation("Repository"));
@@ -47,8 +42,6 @@ public class ModelRepo extends AstNode {
         addFunction(currentFile, crudFile);
 
         crudDirectory.addFile(crudFile);
-
-        return crudFile;
     }
 
     private void addFunction(CrudFile oldFile, CrudFile newFile) {
@@ -72,7 +65,7 @@ public class ModelRepo extends AstNode {
 
         var parameterType = oldFile.getFields()
                 .stream()
-                .filter(f -> f.getName().toLowerCase().contains(correctParameterName))
+                .filter(f -> f.getName().equals(correctParameterName))
                 .map(Field::getType)
                 .findFirst()
                 .orElse(null);
