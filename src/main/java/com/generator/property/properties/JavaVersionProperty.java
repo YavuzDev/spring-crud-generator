@@ -4,7 +4,7 @@ import com.generator.file.CrudTree;
 import com.generator.file.MavenFile;
 import com.generator.property.Property;
 
-public class JavaVersion extends Property {
+public class JavaVersionProperty extends Property {
     @Override
     public void apply(CrudTree tree, MavenFile mavenFile, String value) {
         if (Integer.parseInt(value) < 11) {

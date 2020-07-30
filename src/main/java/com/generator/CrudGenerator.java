@@ -50,7 +50,7 @@ public class CrudGenerator {
         var mavenFile = new MavenFile();
 
         propertyManager.readProperties(pathToProperties, crudTree, mavenFile);
-//        astNode.generate(crudTree, mavenFile);
+        astNode.generate(crudTree, mavenFile);
 
         mavenFile.generate(pathToCode);
         crudTree.generateFiles(pathToCode);

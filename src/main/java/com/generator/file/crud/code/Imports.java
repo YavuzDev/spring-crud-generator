@@ -12,6 +12,6 @@ public class Imports implements CrudCode {
 
     @Override
     public String toCode() {
-        return "import" + importClass + ";" + "\n";
+        return "import " + importClass + ";";
     }
 }

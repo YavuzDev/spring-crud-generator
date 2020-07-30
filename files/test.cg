@@ -1,0 +1,11 @@
+model User {
+  key: Long
+  firstName: String
+  lastName: String
+}
+
+model Product {
+  key: Int
+  productName: String
+  productAmount: Int
+}

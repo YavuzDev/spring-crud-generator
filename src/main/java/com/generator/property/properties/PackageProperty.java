@@ -12,8 +12,16 @@ public class PackageProperty extends Property {
 
         var split = value.split("\\.");
 
-        tree.setRootDirectory(new CrudDirectory(split[0]));
-        tree.getRootDirectory().addDirectory(new CrudDirectory(split[1]));
+        var rootDirectory = new CrudDirectory(null, split[0]);
+        tree.setRootDirectory(rootDirectory);
+
+        var codeDirectory = new CrudDirectory(rootDirectory, split[1]);
+        codeDirectory.addDirectory(new CrudDirectory(codeDirectory,"model"));
+        codeDirectory.addDirectory(new CrudDirectory(codeDirectory,"services"));
+        codeDirectory.addDirectory(new CrudDirectory(codeDirectory,"controllers"));
+
+        tree.getRootDirectory().addDirectory(codeDirectory);
+
     }
 
     @Override

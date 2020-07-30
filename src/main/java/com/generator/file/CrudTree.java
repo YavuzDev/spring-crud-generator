@@ -12,6 +12,10 @@ public class CrudTree {
 
     private CrudDirectory rootDirectory;
 
+    private CrudDirectory currentDirectory;
+
+    private CrudFile currentFile;
+
     private final SpringProperties springProperties;
 
     public CrudTree() {
@@ -23,6 +27,15 @@ public class CrudTree {
 
         var srcPath = correctPath.resolve("src");
         Files.createDirectory(srcPath);
+
+        var testPath = srcPath.resolve("test");
+        Files.createDirectory(testPath);
+
+        var testJavaPath = testPath.resolve("java");
+        Files.createDirectory(testJavaPath);
+
+        var testResourcesPath = testPath.resolve("resources");
+        Files.createDirectory(testResourcesPath);
 
         var mainPath = srcPath.resolve("main");
         Files.createDirectory(mainPath);
@@ -81,5 +94,21 @@ public class CrudTree {
             }
         }
         throw new RuntimeException("No file with the name " + fileName + " found");
+    }
+
+    public CrudDirectory getCurrentDirectory() {
+        return currentDirectory;
+    }
+
+    public void setCurrentDirectory(CrudDirectory currentDirectory) {
+        this.currentDirectory = currentDirectory;
+    }
+
+    public CrudFile getCurrentFile() {
+        return currentFile;
+    }
+
+    public void setCurrentFile(CrudFile currentFile) {
+        this.currentFile = currentFile;
     }
 }
