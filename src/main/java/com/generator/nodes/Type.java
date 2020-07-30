@@ -1,7 +1,10 @@
 package com.generator.nodes;
 
+import java.util.Arrays;
+
 public enum Type {
     STRING("String"),
+    TEXT("String"),
     INT("int"),
     LONG("long");
 
@@ -15,7 +18,9 @@ public enum Type {
         return value;
     }
 
-    public static String getValue(String identifier) {
-        return Type.valueOf(identifier.toUpperCase()).getValue();
+    public static Type getValue(String identifier) {
+        return Arrays.stream(Type.values())
+                .filter(t -> t.name().equalsIgnoreCase(identifier))
+                .findFirst().orElse(null);
     }
 }

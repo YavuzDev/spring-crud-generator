@@ -1,13 +1,14 @@
 package com.generator.file.crud;
 
-import com.generator.file.crud.code.Location;
 import com.generator.file.crud.code.*;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class CrudFile {
 
@@ -42,7 +43,16 @@ public class CrudFile {
 
         builder.append("public").append(" ").append("class").append(" ").append(fileName).append(" ").append("{").append("\n").append("\n");
 
-        fields.forEach(f -> builder.append(f.toCode()).append("\n"));
+        var fieldList = new ArrayList<>(fields);
+        for (int i = 0; i < fieldList.size(); i++) {
+            var field = fieldList.get(i);
+            builder.append(field.toCode()).append("\n");
+
+            if (i + 1 < fieldList.size() && fieldList.get(i + 1).getAnnotations().size() > 0) {
+                builder.append("\n");
+            }
+        }
+
         builder.append("\n");
 
         functions.forEach(f -> builder.append(f.toCode()).append("\n"));

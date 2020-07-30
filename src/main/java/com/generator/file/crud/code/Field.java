@@ -25,7 +25,15 @@ public class Field implements CrudCode {
     @Override
     public String toCode() {
         var builder = new StringBuilder();
-        annotations.forEach(a -> builder.append("\t").append(a.toCode()));
+
+        int index = 0;
+        for (var annotation : annotations) {
+            builder.append("\t").append(annotation.toCode());
+            if (index < annotations.size() - 1) {
+                builder.append("\n");
+            }
+            index++;
+        }
         builder.append("\n").append("\t").append("private");
         if (isFinal) {
             builder.append(" ").append("final");
@@ -36,6 +44,10 @@ public class Field implements CrudCode {
 
     public void addAnnotation(Annotation annotation) {
         annotations.add(annotation);
+    }
+
+    public Set<Annotation> getAnnotations() {
+        return annotations;
     }
 
     public boolean isFinal() {

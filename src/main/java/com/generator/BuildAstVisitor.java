@@ -30,7 +30,11 @@ public class BuildAstVisitor extends CrudGeneratorBaseVisitor<AstNode> {
 
     @Override
     public AstNode visitModelFields(CrudGeneratorParser.ModelFieldsContext ctx) {
-        return new ModelField(ctx.type.getText(), ctx.name.getText());
+        var value = "";
+        if (ctx.collection != null) {
+            value = ctx.collection.getText();
+        }
+        return new ModelField(ctx.type.getText(), ctx.name.getText(), value);
     }
 
     private List<ModelDeclaration> getModels(List<CrudGeneratorParser.ModelDeclContext> modelDecl) {

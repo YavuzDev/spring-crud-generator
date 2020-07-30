@@ -17,8 +17,12 @@ public class ModelKey extends AstNode {
 
     @Override
     public void generate(CrudTree tree, MavenFile mavenFile) {
-        var field = new Field(Type.getValue(type), "key", false);
+        var field = new Field(Type.getValue(type).getValue(), "key", false);
         field.addAnnotation(new Annotation("Id"));
+
+        var generatedValueAnnotation = new Annotation("GeneratedValue");
+        generatedValueAnnotation.addParameter("strategy", "GenerationType.AUTO");
+        field.addAnnotation(generatedValueAnnotation);
 
         tree.getCurrentFile().addField(field);
     }
