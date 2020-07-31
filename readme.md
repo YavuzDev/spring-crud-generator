@@ -9,9 +9,9 @@ A Domain Specific Language used for generating spring code.
 The project makes use of Antlr4 to parse a Domain Specific Language. 
 Antlr4 was used for the flexibility which makes it easily possible to add more features in the future.
 
-The Spring Boot code gets generated from a file containig the Domain Specific Language code and a property file.
+The Spring Boot code gets generated from a file containing the Domain Specific Language code and a property file.
 
-The required properties are:
+## The required properties are:
 ```properties
 package=com.test #Has to be separated by dots
 artifact=test #Can be anything
@@ -22,9 +22,9 @@ description=Test description #Can be anything
 java.version=11 #Can be any
 ```
 
-The supported database properties:
+## The supported database properties:
 
-## H2
+### H2
 ```properties
 database=h2
 database.username=test
@@ -32,13 +32,26 @@ database.password=test
 database.ddl=create-drop
 ```
 
-## PostgreSQL
+### PostgreSQL
 ```properties
 database=postgres
 database.username=test
 database.password=test
 database.ddl=create-drop
 database.url=jdbc:postgresql://localhost:5432/test
+```
+
+## The supported data types for the Domain Specific Language:
+
+```
+Text or String
+Byte
+Short
+Int
+Long
+Double
+List
+Set
 ```
 
 # Example
