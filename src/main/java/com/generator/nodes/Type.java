@@ -5,6 +5,7 @@ import java.util.Arrays;
 public enum Type {
     STRING("String", "String"),
     TEXT("String", "String"),
+    BOOLEAN("boolean", "Boolean"),
     BYTE("byte", "Byte"),
     SHORT("short", "Short"),
     INT("int", "Integer"),

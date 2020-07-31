@@ -13,7 +13,11 @@ import java.util.Comparator;
 
 public class CrudGenerator {
 
-    public static final String GENERATED_DIRECTORY = "generated";
+    public static final Path PATH_TO_CODE = Path.of("files").resolve("test.cg");
+
+    public static final Path PATH_TO_PROPERTIES = Path.of("files").resolve("cg.properties");
+
+    public static final Path PATH_TO_GENERATED_FOLDER = PATH_TO_CODE.getParent().resolve("generated");
 
     private ANTLRErrorListener getErrorListener() {
         return new BaseErrorListener() {
@@ -38,7 +42,7 @@ public class CrudGenerator {
         return parser.compileUnit();
     }
 
-    private void compile(CharStream input, PropertyManager propertyManager, Path pathToCode, Path pathToProperties) throws IOException {
+    private void compile(CharStream input, PropertyManager propertyManager) throws IOException {
         var tokens = runLexer(input);
         var parseTree = runParser(tokens);
 
@@ -49,11 +53,11 @@ public class CrudGenerator {
         var crudTree = new CrudTree();
         var mavenFile = new MavenFile();
 
-        propertyManager.readProperties(pathToProperties, crudTree, mavenFile);
+        propertyManager.readProperties(PATH_TO_PROPERTIES, crudTree, mavenFile);
         astNode.generate(crudTree, mavenFile);
 
-        mavenFile.generate(pathToCode);
-        crudTree.generateFiles(pathToCode);
+        mavenFile.generate(PATH_TO_CODE);
+        crudTree.generateFiles(PATH_TO_CODE);
 
         crudTree.addMissingImports();
     }
@@ -63,12 +67,16 @@ public class CrudGenerator {
 
         var propertyManager = new PropertyManager();
 
-        var pathToCode = Path.of("files").resolve("test.cg");
-        var pathToProperties = Path.of("files").resolve("cg.properties");
 
-        var directory = pathToCode.getParent().resolve(GENERATED_DIRECTORY);
-        if (Files.exists(directory)) {
-            Files.walk(directory).sorted(Comparator.reverseOrder()).forEach(path -> {
+        deleteGeneratedFolder();
+        Files.createDirectory(PATH_TO_GENERATED_FOLDER);
+
+        generator.compile(CharStreams.fromPath(PATH_TO_CODE), propertyManager);
+    }
+
+    public static void deleteGeneratedFolder() throws IOException {
+        if (Files.exists(PATH_TO_GENERATED_FOLDER)) {
+            Files.walk(PATH_TO_GENERATED_FOLDER).sorted(Comparator.reverseOrder()).forEach(path -> {
                 try {
                     Files.delete(path);
                 } catch (IOException e) {
@@ -76,8 +84,5 @@ public class CrudGenerator {
                 }
             });
         }
-        Files.createDirectory(directory);
-
-        generator.compile(CharStreams.fromPath(pathToCode), propertyManager, pathToCode, pathToProperties);
     }
 }

@@ -76,7 +76,7 @@ public class MavenFile {
 
         stringBuilder.append("\n</project>");
 
-        var newFile = pathToCode.getParent().resolve(CrudGenerator.GENERATED_DIRECTORY).resolve("pom.xml");
+        var newFile = CrudGenerator.PATH_TO_GENERATED_FOLDER.resolve("pom.xml");
         Files.write(newFile, stringBuilder.toString().getBytes());
     }
 

@@ -29,9 +29,7 @@ public class CrudTree {
     }
 
     public void generateFiles(Path path) throws IOException {
-        var correctPath = path.getParent().resolve(CrudGenerator.GENERATED_DIRECTORY);
-
-        var srcPath = correctPath.resolve("src");
+        var srcPath = CrudGenerator.PATH_TO_GENERATED_FOLDER.resolve("src");
         Files.createDirectory(srcPath);
 
         var testPath = srcPath.resolve("test");
@@ -125,6 +123,14 @@ public class CrudTree {
     public void addMissingImports() {
         missingImports.forEach(m -> {
             var file = getFile(m.getMissingType());
+            if (file == null) {
+                try {
+                    CrudGenerator.deleteGeneratedFolder();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                throw new RuntimeException("No file with " + m.getMissingType() + " found");
+            }
             m.getCrudFile().addImport(new Imports(file.getLocation().getLocation() + "." + m.getMissingType()));
             try {
                 m.getCrudFile().createFile(file.getDirectory());

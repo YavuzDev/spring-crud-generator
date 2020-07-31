@@ -27,7 +27,7 @@ modelRepo
 
 MODEL_KEYWORD         : 'model';
 MODEL_FIELD_SEPERATOR : ':';
-MODEL_TYPES           : 'String'|'Int'|'Long'|'Text'|'Byte'|'Short'|'Double';
+MODEL_TYPES           : 'String'|'Int'|'Long'|'Text'|'Byte'|'Short'|'Double'|'Boolean';
 MODEL_COLLECTION      : 'List'|'Set';
 MODEL_KEY             : 'key';
 MODEL_REPO            : 'repo';

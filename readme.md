@@ -41,10 +41,11 @@ database.ddl=create-drop
 database.url=jdbc:postgresql://localhost:5432/test
 ```
 
-## The supported data types for the Domain Specific Language:
+## The supported data types for the Spring Boot models:
 
 ```
 Text or String
+Boolean
 Byte
 Short
 Int
@@ -52,6 +53,14 @@ Long
 Double
 List
 Set
+```
+
+## The supported functions for the Spring Boot repositories:
+
+```
+find"TYPE"By"FIELD"
+countBy"FIELD"
+existsBy"FIELD"
 ```
 
 # Example
