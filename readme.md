@@ -44,7 +44,7 @@ database.url=jdbc:postgresql://localhost:5432/test
 # Example
 To generate the following example, the following code is used.
 
-###cg.properties:
+### cg.properties:
 ```properties
 package=com.test
 artifact=test
@@ -61,7 +61,7 @@ database.ddl=create-drop
 database.url=jdbc:postgresql://localhost:5432/test
 ```
 
-###test.cg:
+### test.cg:
 ```yaml
 model Student {
   key: Long
